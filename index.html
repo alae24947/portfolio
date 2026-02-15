@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alae Khelifi - AI Engineer & Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --accent-cyan: #5eead4;
+            --accent-bright: #22d3ee;/* #22d722;*/
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            line-height: 1.75;
+            overflow-x: hidden;
+        }
+
+        /* Mouse spotlight effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(94, 234, 212, 0.15), transparent 40%);
+            z-index: 30;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        body.mouse-active::before {
+            opacity: 1;
+        }
+
+        /* Main container with split layout */
+        .main-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 6rem;
+            display: flex;
+            gap: 4rem;
+            min-height: 100vh;
+        }
+
+        /* Left side new one  */
+        .left-side {
+            position: sticky;
+            top: 0;
+            width: 50%;
+            max-width: 600px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 6rem 0;
+            z-index: 10;
+        }
+
+        .header-content h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.025em;
+        }
+
+        .header-content h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .header-content p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 320px;
+            line-height: 1.6;
+            margin-bottom: 3rem;
+        }
+
+        /* Navigation */
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .nav-menu li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-menu a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            padding: 0.75rem 0;
+            position: relative;
+        }
+
+        .nav-menu a::before {
+            content: '';
+            width: 2rem;
+            height: 1px;
+            background: var(--text-muted);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: var(--text-primary);
+        }
+
+        .nav-menu a:hover::before,
+        .nav-menu a.active::before {
+            width: 4rem;
+            background: var(--text-primary);
+        }
+
+        /* Social links */
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: auto;
+        }
+
+        .social-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--text-primary);
+            transform: translateY(-3px);
+        }
+
+        /* Language toggle button */
+        .lang-toggle {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            padding: 0;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lang-toggle:hover {
+            color: var(--text-primary);
+            transform: translateY(-3px);
+        }
+
+        .lang-text {
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* Right side - scrollable */
+        .right-side {
+            width: 50%;
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        section {
+            margin-bottom: 8rem;
+            scroll-margin-top: 6rem;
+        }
+
+        section h3 {
+            position: sticky;
+            top: 0;
+            background: var(--bg-primary);
+            z-index: 20;
+            padding: 1.5rem 0;
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+        }
+
+        /* About section */
+        .about-content p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .about-content a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .about-content a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Experience items  to be fixed ..*/
+        .experience-item,
+        .project-item {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .experience-item:hover,
+        .project-item:hover {
+            background: rgba(148, 163, 184, 0.05);
+            box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.1);
+        }
+
+        .experience-item::before,
+        .project-item::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 8px;
+            padding: 1px;
+            background: linear-gradient(135deg, var(--accent-cyan), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .experience-item:hover::before,
+        .project-item:hover::before {
+            opacity: 1;
+        }
+
+        .date {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 600;
+            padding-top: 0.25rem;
+        }
+
+        .experience-content h4,
+        .project-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-content h4 a,
+        .project-content h4 a {
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+
+        .experience-content h4 a:hover,
+        .project-content h4 a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .experience-content p,
+        .project-content p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .project-metrics {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .metric {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .metric-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Skills/Tags */
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tech-tag {
+            padding: 0.375rem 0.875rem;
+            background: rgba(94, 234, 212, 0.1);
+            color: var(--accent-cyan);
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Skills grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .skill-category h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .skill-item {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .skill-item::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--accent-cyan);
+        }
+
+        /* Project link */
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: var(--accent-cyan);
+            gap: 0.75rem;
+        }
+
+        .project-link::after {
+            content: '→';
+            transition: transform 0.3s ease;
+        }
+
+        .project-link:hover::after {
+            transform: translateX(4px);
+        }
+
+        /* Footer */
+        footer {
+            padding-top: 4rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-container {
+                padding: 0 3rem;
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .left-side {
+                position: relative;
+                width: 100%;
+                height: auto;
+                padding: 3rem 0 2rem;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .right-side {
+                width: 100%;
+                padding: 0 0 3rem;
+            }
+
+            section h3 {
+                position: relative;
+            }
+
+            .experience-item,
+            .project-item {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .main-container {
+                padding: 0 1.5rem;
+            }
+
+            .header-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Left Side - Fixed -->
+        <div class="left-side">
+            <div>
+                <div class="header-content">
+                    <h1>Alae Khelifi</h1>
+                    <h2>AI Engineer & ML Developer</h2>
+                    <p>I build intelligent systems powered by deep learning, computer vision, and real time data pipelines.</p>
+                </div>
+
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="#about" class="nav-link active">About</a></li>
+                        <li><a href="#experience" class="nav-link">Experience</a></li>
+                        <li><a href="#projects" class="nav-link">Projects</a></li>
+                        <li><a href="#skills" class="nav-link">Skills</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="social-links">
+                <a href="https://github.com/alae24947" target="_blank" aria-label="GitHub">
+                    <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                <a href="https://www.linkedin.com/in/alae-khelifi-517327316/" target="_blank" aria-label="LinkedIn">
+                    <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                </a>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=alaekhelifi40@gmail.com" target="_blank" aria-label="Email">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                </a>
+                <a href="Alae_Khelifi_CV.pdf" download="Alae_Khelifi_CV.pdf" aria-label="Download CV">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                </a>
+                <button id="langToggle" class="lang-toggle" aria-label="Switch Language">
+                    <span class="lang-text">FR</span>
+                </button>
+            </div><br><br>
+        </div>
+
+        <!-- Right Side - Scrollable -->
+        <div class="right-side">
+            <!-- About Section -->
+            <section id="about">
+                <h3>About</h3>
+                <div class="about-content"><br><br><br>
+                    <p>Master's student in Artificial Intelligence at <a href="#">UMBB</a> with hands on experience in deep reinforcement learning, computer vision, and real-time data pipelines. I'm passionate about applying AI to solve real world problems through collaborative development and innovative thinking.</p>
+                    
+                    <p>My recent work includes developing autonomous systems using PPO algorithms achieving 91% success rates, building real-time data pipelines processing 10,000+ orders per hour with Apache Kafka, and creating machine learning models with 96.5% accuracy for medical diagnosis.</p>
+                    
+                </div>
+            </section>
+
+            <!-- Experience Section -->
+            <section id="experience">
+                <h3>Education</h3>
+                
+                <div class="experience-item">
+                    <div class="date">2025 — Present</div>
+                    <div class="experience-content">
+                        <h4><a href="#">Master in Artificial Intelligence · UMBB</a></h4>
+                        <p>Advanced coursework in machine learning, deep learning, computer vision, cloud computing, and advanced algorithms. Focus on practical applications and research in AI systems.</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Machine Learning</span>
+                            <span class="tech-tag">Deep Learning</span>
+                            <span class="tech-tag">Computer Vision</span>
+                            <span class="tech-tag">Cloud Computing</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="date">2022 — 2025</div>
+                    <div class="experience-content">
+                        <h4><a href="#">Bachelor's Degree · UMBB</a></h4>
+                        <p>Information Systems and Industrial Logistics with focus on database management, programming, and system automation. Final project on AI model graded 17/20.</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Database Systems</span>
+                            <span class="tech-tag">System Design</span>
+                            <span class="tech-tag">Programming</span>
+                            <span class="tech-tag">Automation</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section id="projects">
+                <h3>Featured Projects</h3>
+
+                <div class="project-item">
+                    <div class="date">Feb 2025</div>
+                    <div class="project-content">
+                        <h4><a href="https://github.com/AlaeKhelifi" target="_blank">Reinforcement Learning for Autonomous Lunar Landing</a></h4>
+                        <p>Benchmarked Q-Learning, DQN, and PPO algorithms for autonomous lunar landing. Implemented CNN-based DQN with experience replay and Actor-Critic PPO architecture for visual state space processing.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">91%</span>
+                                <span class="metric-label">Success Rate</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">43%</span>
+                                <span class="metric-label">Faster Training</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">17/20</span>
+                                <span class="metric-label">Grade</span>
+                            </div>
+                        </div>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">PyTorch</span>
+                            <span class="tech-tag">OpenAI Gym</span>
+                            <span class="tech-tag">OpenCV</span>
+                            <span class="tech-tag">Reinforcement Learning</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-item">
+                    <div class="date">Nov 2025</div>
+                    <div class="project-content">
+                        <h4><a href="https://github.com/AlaeKhelifi" target="_blank">Real-Time E-Commerce Analytics Pipeline</a></h4>
+                        <p>Architected event-driven pipeline with Apache Kafka processing orders in real-time. Reduced latency from 24-hour batch processing to under 5 seconds through stream processing and aggregation. Fully containerized with Docker Compose.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">10K+</span>
+                                <span class="metric-label">Orders/Hour</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">&lt;5s</span>
+                                <span class="metric-label">Latency</span>
+                            </div>
+                        </div>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Apache Kafka</span>
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">Streamlit</span>
+                            <span class="tech-tag">Python</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-item">
+                    <div class="date">Oct 2025</div>
+                    <div class="project-content">
+                        <h4><a href="https://github.com/AlaeKhelifi" target="_blank">Breast Cancer Classification with Machine Learning</a></h4>
+                        <p>Developed KNN model achieving 96.5% accuracy for tumor diagnosis. Applied PCA dimensionality reduction, reducing features from 30 to 10 while maintaining 95%+ accuracy and achieving 3x faster inference.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">96.5%</span>
+                                <span class="metric-label">Accuracy</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">3x</span>
+                                <span class="metric-label">Faster</span>
+                            </div>
+                        </div>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">scikit-learn</span>
+                            <span class="tech-tag">Pandas</span>
+                            <span class="tech-tag">PCA</span>
+                            <span class="tech-tag">NumPy</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-item">
+                    <div class="date">Dec 2025</div>
+                    <div class="project-content">
+                        <h4><a href="https://github.com/AlaeKhelifi" target="_blank">Automated Exam Scheduling System</a></h4>
+                        <p>Built constraint-based scheduler for 2,000+ students using genetic algorithm. Reduced planning time from 2 weeks to 15 minutes. Deployed on Railway and successfully piloted by CS department.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">2K+</span>
+                                <span class="metric-label">Students</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">15min</span>
+                                <span class="metric-label">vs 2 weeks</span>
+                            </div>
+                        </div>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Streamlit</span>
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">Genetic Algorithms</span>
+                            <span class="tech-tag">Railway</span>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="https://github.com/AlaeKhelifi" class="project-link" target="_blank">View Full Project Archive</a>
+            </section>
+
+            <!-- Skills Section -->
+            <section id="skills">
+                <h3>Technical Skills</h3>
+                
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h4>Machine Learning & AI</h4>
+                        <div class="skill-list">
+                            <div class="skill-item">PyTorch</div>
+                            <div class="skill-item">TensorFlow</div>
+                            <div class="skill-item">Scikit-learn</div>
+                            <div class="skill-item">Deep Learning</div>
+                            <div class="skill-item">Reinforcement Learning</div>
+                            <div class="skill-item">Computer Vision</div>
+                            <div class="skill-item">OpenCV</div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4>Data Engineering</h4>
+                        <div class="skill-list">
+                            <div class="skill-item">Apache Kafka</div>
+                            <div class="skill-item">Docker</div>
+                            <div class="skill-item">PostgreSQL</div>
+                            <div class="skill-item">MySQL</div>
+                            <div class="skill-item">MongoDB</div>
+                            <div class="skill-item">Stream Processing</div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4>Programming Languages</h4>
+                        <div class="skill-list">
+                            <div class="skill-item">Python (Proficient)</div>
+                            <div class="skill-item">JavaScript</div>
+                            <div class="skill-item">C/C++</div>
+                            <div class="skill-item">SQL</div>
+                            <div class="skill-item">R</div>
+                            <div class="skill-item">Java</div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4>Tools & Frameworks</h4>
+                        <div class="skill-list">
+                            <div class="skill-item">Git/GitHub</div>
+                            <div class="skill-item">Node.js</div>
+                            <div class="skill-item">Flask</div>
+                            <div class="skill-item">Streamlit</div>
+                            <div class="skill-item">Pandas & NumPy</div>
+                            <div class="skill-item">Matplotlib</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h4 style="color: var(--text-primary); margin-bottom: 1rem;">Languages</h4>
+                    <div class="skill-list">
+                        <div class="skill-item">Arabic (Native)</div>
+                        <div class="skill-item">French (Fluent)</div>
+                        <div class="skill-item">English (Fluent)</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer>
+                <p>Built with passion for AI and innovation. Based in Zemmouri, Algeria.</p>
+                <p style="margin-top: 0.5rem;">© 2025 Alae Khelifi. Available for Spring 2025 internships.</p>
+            </footer>
+        </div>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Mouse spotlight effect
+        let mouseX = 0;
+        let mouseY = 0;
+        let isMouseActive = false;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            if (!isMouseActive) {
+                isMouseActive = true;
+                document.body.classList.add('mouse-active');
+            }
+            
+            document.body.style.setProperty('--mouse-x', `${mouseX}px`);
+            document.body.style.setProperty('--mouse-y', `${mouseY}px`);
+        });
+
+        // Active navigation highlighting
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '-50% 0px -50% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${id}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => observer.observe(section));
+
+        // Smooth scroll
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Language toggle functionality
+        const translations = {
+            en: {
+                name: "Alae Khelifi",
+                title: "AI Engineer & ML Developer",
+                subtitle: "I build intelligent systems powered by deep learning, computer vision, and real-time data pipelines.",
+                aboutTitle: "About",
+                aboutText: [
+                    "Master's student in Artificial Intelligence at <a href='#'>UMBB</a> with hands-on experience in deep reinforcement learning, computer vision, and real-time data pipelines. I'm passionate about applying AI to solve real-world problems through collaborative development and innovative thinking.",
+                    "My recent work includes developing autonomous systems using PPO algorithms achieving 91% success rates, building real-time data pipelines processing 10,000+ orders per hour with Apache Kafka, and creating machine learning models with 96.5% accuracy for medical diagnosis.",
+                    "Currently seeking <strong>Spring 2025 internship opportunities</strong> in Machine Learning, Data Engineering, or Software Development where I can contribute to impactful projects and continue growing as an engineer.",
+                    "When I'm not coding, you can find me exploring the latest research in reinforcement learning, contributing to open-source projects, or working on personal AI experiments."
+                ],
+                experienceTitle: "Education",
+                projectsTitle: "Featured Projects",
+                skillsTitle: "Technical Skills",
+                langButton: "FR"
+            },
+            fr: {
+                name: "Alae Khelifi",
+                title: "Ingénieur IA & Développeur ML",
+                subtitle: "Je construis des systèmes intelligents alimentés par l'apprentissage profond, la vision par ordinateur et les pipelines de données en temps réel.",
+                aboutTitle: "À propos",
+                aboutText: [
+                    "Étudiant en Master d'Intelligence Artificielle à l'<a href='#'>UMBB</a> avec une expérience pratique en apprentissage par renforcement profond, vision par ordinateur et pipelines de données en temps réel. Je suis passionné par l'application de l'IA pour résoudre des problèmes concrets grâce au développement collaboratif et à la pensée innovante.",
+                    "Mes travaux récents incluent le développement de systèmes autonomes utilisant des algorithmes PPO atteignant 91% de taux de réussite, la construction de pipelines de données en temps réel traitant plus de 10 000 commandes par heure avec Apache Kafka, et la création de modèles d'apprentissage automatique avec 96,5% de précision pour le diagnostic médical.",
+                    "Je recherche actuellement des <strong>opportunités de stage pour le printemps 2025</strong> en Machine Learning, Ingénierie des Données ou Développement Logiciel où je peux contribuer à des projets impactants et continuer à grandir en tant qu'ingénieur.",
+                    "Quand je ne code pas, vous pouvez me trouver en train d'explorer les dernières recherches en apprentissage par renforcement, de contribuer à des projets open source ou de travailler sur des expériences personnelles d'IA."
+                ],
+                experienceTitle: "Formation",
+                projectsTitle: "Projets Principaux",
+                skillsTitle: "Compétences Techniques",
+                langButton: "EN"
+            }
+        };
+
+        let currentLang = 'en';
+        const langToggle = document.getElementById('langToggle');
+
+        langToggle.addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'fr' : 'en';
+            updateLanguage();
+        });
+
+        function updateLanguage() {
+            const lang = translations[currentLang];
+            
+            // Update header
+            document.querySelector('.header-content h2').textContent = lang.title;
+            document.querySelector('.header-content p').textContent = lang.subtitle;
+            
+            // Update about section
+            document.querySelector('#about h3').textContent = lang.aboutTitle;
+            const aboutParagraphs = document.querySelectorAll('.about-content p');
+            aboutParagraphs.forEach((p, index) => {
+                if (lang.aboutText[index]) {
+                    p.innerHTML = lang.aboutText[index];
+                }
+            });
+            
+            // Update section titles
+            document.querySelector('#experience h3').textContent = lang.experienceTitle;
+            document.querySelector('#projects h3').textContent = lang.projectsTitle;
+            document.querySelector('#skills h3').textContent = lang.skillsTitle;
+            
+            // Update language toggle button
+            langToggle.querySelector('.lang-text').textContent = lang.langButton;
+        }
+    </script>
+</body>
+</html>
