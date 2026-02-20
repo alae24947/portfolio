@@ -272,6 +272,7 @@
             mask-composite: exclude;
             opacity: 0;
             transition: opacity 0.3s ease;
+            pointer-events: none; /* <-- add this line */
         }
 
         .experience-item:hover::before,
@@ -530,7 +531,7 @@
             <section id="about">
                 <h3>About</h3>
                 <div class="about-content"><br><br><br>
-                    <p>Master's student in Artificial Intelligence at <a href="#">UMBB</a> with hands on experience in deep reinforcement learning, computer vision, and real-time data pipelines. I'm passionate about applying AI to solve real world problems through collaborative development and innovative thinking.</p>
+                    <p>Master's student in Artificial Intelligence at <a href="">UMBB</a> with hands on experience in deep reinforcement learning, computer vision, and real-time data pipelines. I'm passionate about applying AI to solve real world problems through collaborative development and innovative thinking.</p>
                     
                     <p>My recent work includes developing autonomous systems using PPO algorithms achieving 91% success rates, building real-time data pipelines processing 10,000+ orders per hour with Apache Kafka, and creating machine learning models with 96.5% accuracy for medical diagnosis.</p>
                     
@@ -544,7 +545,7 @@
                 <div class="experience-item">
                     <div class="date">2025 — Present</div>
                     <div class="experience-content">
-                        <h4><a href="#">Master in Artificial Intelligence · UMBB</a></h4>
+                        <h4>Master in Artificial Intelligence · UMBB</h4>
                         <p>Advanced coursework in machine learning, deep learning, computer vision, cloud computing, and advanced algorithms. Focus on practical applications and research in AI systems.</p>
                         <div class="tech-tags">
                             <span class="tech-tag">Machine Learning</span>
@@ -558,7 +559,7 @@
                 <div class="experience-item">
                     <div class="date">2022 — 2025</div>
                     <div class="experience-content">
-                        <h4><a href="#">Bachelor's Degree · UMBB</a></h4>
+                        <h4>Bachelor's Degree · UMBB</h4>
                         <p>Information Systems and Industrial Logistics with focus on database management, programming, and system automation. Final project on AI model graded 17/20.</p>
                         <div class="tech-tags">
                             <span class="tech-tag">Database Systems</span>
@@ -803,11 +804,13 @@
         // Smooth scroll
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = link.getAttribute('href');
-                const targetSection = document.querySelector(targetId);
+            e.preventDefault(); 
+            const targetId = link.getAttribute('href'); 
+            const targetSection = document.querySelector(targetId);
+            if (targetSection) {
                 targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
+                    }
+                });
         });
 
         // Language toggle functionality
